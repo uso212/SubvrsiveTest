@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace Controller
 {
     public class BulletPoolManager : MonoBehaviour
     {
-        public static BulletPoolManager Instance;
+        public static BulletPoolManager instance;
         
         [HideInInspector] public List<GameObject> pooledBullets = new List<GameObject>();
 
@@ -16,7 +15,7 @@ namespace Controller
 
         private void Awake()
         {
-            Instance = this;
+            instance = this;
         }
 
         private void Start()
@@ -24,6 +23,9 @@ namespace Controller
             GeneratePool();
         }
 
+        /// <summary>
+        /// We generate a pool of bullets to be used by all the character in-game.
+        /// </summary>
         private void GeneratePool()
         {
             for (var i = 0; i < amountToPool; i++)
@@ -34,6 +36,10 @@ namespace Controller
             }
         }
 
+        /// <summary>
+        /// We look for an available bullet in the pool and return it to the player to be shot.
+        /// </summary>
+        /// <returns></returns>
         public GameObject GetPooledBullet()
         {
             for (var i = 0; i < pooledBullets.Count; i++)

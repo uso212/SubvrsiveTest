@@ -1,4 +1,3 @@
-using Interfaces;
 using UnityEngine;
 
 namespace Controller
@@ -12,21 +11,13 @@ namespace Controller
          * This is serialized only to be visible in the inspector, and for purposes of the test.
          * Normally these fields would not have the SerializeField since it's not necessary.
          */
-        [SerializeField] private float bulletSpeed;
-        [SerializeField] private int bulletDamage;
+        public float bulletSpeed;
+        public int bulletDamage;
         
         public Transform targetTransform;
         
         private Rigidbody2D _bulletRigidBody;
-        private Vector3 _initialPosition;
 
-        /// <summary>
-        /// Each time we enable the bullet we'll reset it to the initial position.
-        /// </summary>
-        private void OnEnable()
-        {
-            transform.position = _initialPosition;
-        }
 
         private void Start()
         {
@@ -55,6 +46,10 @@ namespace Controller
             return bulletDamage;
         }
 
+        /// <summary>
+        /// We'll set the current target (character) of this bullet.
+        /// </summary>
+        /// <param name="target"></param>
         public void SetTarget(Transform target)
         {
             targetTransform = target;
