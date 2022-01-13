@@ -1,10 +1,8 @@
-using System;
 using UnityEngine;
 
-namespace ScriptableData
+namespace PlayerAttributes
 {
-    [CreateAssetMenu(fileName = "Weapon", menuName = "Inventory/Weapon", order = 2)]
-    public class Weapon : ScriptableObject
+    public class Weapon : MonoBehaviour
     {
         public float attackSpeed;
         public float attackRange;

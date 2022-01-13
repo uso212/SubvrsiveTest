@@ -1,5 +1,4 @@
 using Events;
-using Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,18 +7,18 @@ namespace Controller
     /// <summary>
     /// This class will handle the attacking, receiving damage and movement.
     /// </summary>
-    public class CharacterController : MonoBehaviour, ISetCharacterAttributes
+    public class PlayerController : MonoBehaviour
     {
         /*
          * This is serialized only to be visible in the inspector, and for purposes of the test.
          * Normally these fields would not have the SerializeField since it's not necessary.
          */
-        [SerializeField] private int _health;
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _attackSpeed;
-        [SerializeField] private float _attackRange;
+        [SerializeField] private int health;
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float attackSpeed;
+        [SerializeField] private float attackRange;
+        [SerializeField] private Vector2 spawnPoint;
         
-        private BulletPool _bulletPool;
         private string _characterName;
 
         /*
@@ -28,26 +27,15 @@ namespace Controller
          */ 
         private void Start()
         {
+            SetCharacterAttributes();
+            transform.position = spawnPoint;
+            GetComponent<SpriteRenderer>().color = new Color(Random.Range(0.0f, 1.0f), 
+                Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
+            
             _characterName = gameObject.name;
-            _bulletPool = GetComponent<BulletPool>();
 
             //We'll perform an attack at the speed it can attack 0.5 seconds after we start the game. 
-            InvokeRepeating(nameof(Attack), 0.5f, _attackSpeed);
-        }
-
-        /// <summary>
-        /// Set the attributes from the GameController scriptable objects into the character.
-        /// </summary>
-        /// <param name="health"></param>
-        /// <param name="moveSpeed"></param>
-        /// <param name="attackSpeed"></param>
-        /// <param name="attackRange"></param>
-        public void SetCharacterAttributes(int health, float moveSpeed, float attackSpeed, float attackRange)
-        {
-            _health = health;
-            _moveSpeed = moveSpeed;
-            _attackSpeed = attackSpeed;
-            _attackRange = attackRange;
+            InvokeRepeating(nameof(Attack), 0.5f, attackSpeed);
         }
 
         private void Attack()
@@ -62,7 +50,7 @@ namespace Controller
              */
 
             if (Vector2.Distance(characterToAttack.transform.position, transform.position)
-                > _attackRange || characterToAttack.name.Equals(_characterName))
+                > attackRange || characterToAttack.name.Equals(_characterName))
             {
                 return;
             }
@@ -73,15 +61,16 @@ namespace Controller
             direction.Normalize();
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             
-            transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset) * _moveSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset) * moveSpeed * Time.deltaTime);
 
             /*
              * We get the next available bullet from the pool and set the target to where it'll attack,
              * then we'll activate the bullet.
              */
-            var bullet = _bulletPool.GetPooledBullet();
+            var bullet = BulletPoolManager.Instance.GetPooledBullet();
+            bullet.transform.position = new Vector2(spawnPoint.x, spawnPoint.y + .45f);
 
-            var bulletMovement = bullet.GetComponent<IBulletMovement>();
+            var bulletMovement = bullet.GetComponent<BulletMovement>();
             bulletMovement.SetTarget(characterToAttack.transform);
 
             if (bullet == null) return;
@@ -95,9 +84,9 @@ namespace Controller
         /// <param name="damageTaken"></param>
         private void TakeDamage(int damageTaken)
         {
-            _health -= damageTaken;
+            health -= damageTaken;
 
-            if (_health <= 0)
+            if (health <= 0)
             {
                 CancelInvoke(nameof(Attack));
                 GameController.Characters.Remove(gameObject);
@@ -107,6 +96,13 @@ namespace Controller
                 if (GameController.Characters.Count == 1)
                     FinishGameEvent.OnGameEnded?.Invoke(GameController.Characters[0].name);
             }
+        }
+
+        private void SetCharacterAttributes()
+        {
+            health = 100;
+            moveSpeed = Random.Range(1, 6);
+            //attackSpeed =
         }
 
         private void OnTriggerEnter2D(Collider2D other)

@@ -1,9 +1,8 @@
 using UnityEngine;
 
-namespace ScriptableData
+namespace PlayerAttributes
 {
-    [CreateAssetMenu(fileName = "Bullet", menuName = "Inventory/Bullet", order = 1)]
-    public class Bullet : ScriptableObject
+    public class Bullet : MonoBehaviour
     {
         public Sprite bulletSprite;
         public int damage;

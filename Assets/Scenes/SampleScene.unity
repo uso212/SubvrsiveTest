@@ -780,19 +780,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69fbec97e4fdd4cbb801691fb8297b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterList:
-  - {fileID: 11400000, guid: e89ecaa712a7543368927c67614e64b3, type: 2}
-  - {fileID: 11400000, guid: 447589456c64843f9b39d9c0fbcd4b59, type: 2}
-  - {fileID: 11400000, guid: c94924c75c83949808334af0af6c1a64, type: 2}
-  - {fileID: 11400000, guid: 6f5330a3911be40cb81ea6b38be7c2fa, type: 2}
-  - {fileID: 11400000, guid: c7a991c567844495288e176b70a63da4, type: 2}
-  - {fileID: 11400000, guid: e22d29c1d894f4867915c0ebe9f900b1, type: 2}
-  - {fileID: 11400000, guid: a7e036fcc86c04a1c807b8cc9b210d7c, type: 2}
-  - {fileID: 11400000, guid: 1cfa1f6e3000f49e58c3f568f3c31ecc, type: 2}
-  - {fileID: 11400000, guid: 8b380a07015b24c5bafa6bd57c9c7ecb, type: 2}
-  - {fileID: 11400000, guid: e06d5dd7e06e84f9f86b0f104340cbc9, type: 2}
   finishGameUI: {fileID: 1425404332}
   winnerText: {fileID: 1508326268}
+  numberOfPlayers: 10
+  characterPrefab: {fileID: 7199684447587122468, guid: e1b21c079d5f542c9b0deb65fc87c842, type: 3}
 --- !u!4 &844448866
 Transform:
   m_ObjectHideFlags: 0
@@ -940,6 +931,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1089568228}
   m_CullTransparentMesh: 1
+--- !u!1 &1379375013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1379375015}
+  - component: {fileID: 1379375014}
+  m_Layer: 0
+  m_Name: BulletPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1379375014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379375013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8c0aa5ab0d942118aa87bc83da8004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledBullets: []
+  objectToPool: {fileID: 4732147870512632947, guid: 58c2b1bee249542c0b47751f9591f9e2, type: 3}
+  amountToPool: 35
+--- !u!4 &1379375015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379375013}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1425404332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,7 +1196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2111763854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1242,3 +1279,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &2118036434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2118036435}
+  m_Layer: 0
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2118036435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118036434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
